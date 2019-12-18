@@ -7,7 +7,7 @@
     >
       <h1>{{ title }}</h1>
       <v-spacer/>
-      <v-switch :prepend-icon="darkThemeOn ? 'mdi-brightness-3' : 'mdi-white-balance-sunny'" v-model="darkThemeOn" class="ma-2" :color="darkThemeOn ? 'white' : 'yellow'">
+      <v-switch :append-icon="darkThemeOn ? 'mdi-brightness-3' : 'mdi-white-balance-sunny'" v-model="darkThemeOn" class="ma-2" :color="darkThemeOn ? 'white' : 'yellow'">
       </v-switch>
     </v-app-bar>
     <v-content>

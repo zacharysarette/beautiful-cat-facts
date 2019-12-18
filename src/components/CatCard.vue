@@ -7,9 +7,9 @@
     <v-spacer/>
     {{ randNum2 === 1 ? 'A' : randNum2 }}
     <v-icon v-if="randNum === 0">mdi-cards-spade</v-icon>
-    <v-icon v-if="randNum === 1">mdi-cards-heart</v-icon>
+    <v-icon color="red" v-if="randNum === 1">mdi-cards-heart</v-icon>
     <v-icon v-if="randNum === 2">mdi-cards-club</v-icon>
-    <v-icon v-if="randNum === 3">mdi-cards-diamond</v-icon>
+    <v-icon color="red" v-if="randNum === 3">mdi-cards-diamond</v-icon>
   </v-card-title>
   <v-img
     :src="catPicSource"

@@ -5,15 +5,34 @@
       color="primary"
       dark
     >
+      <h1>{{ title }}</h1>
+      <v-spacer/>
+      <v-switch :prepend-icon="darkThemeOn ? 'mdi-brightness-3' : 'mdi-white-balance-sunny'" v-model="darkThemeOn" class="ma-2" :color="darkThemeOn ? 'white' : 'yellow'">
+      </v-switch>
     </v-app-bar>
     <v-content>
-      <app-cat-card :info="catInfo" :catPicSource="catPic"></app-cat-card>
+      <v-col cols="12">
+        <v-row>
+          <app-cat-card
+          v-for="(cat, i) in catInfo"
+          :key ="cat.id"
+          :info="cat.fact"
+          :catPicSource="catPics[i].url">
+          </app-cat-card>
+        </v-row>
+      </v-col>
       <div v-if="loading">Loading...</div>
       <v-content v-else>
         <p> Loaded</p>
       </v-content>
       <div v-if="errored"><p>{{ error }}</p></div>
     </v-content>
+    <v-footer
+    color="primary"
+    app left-justify>
+    <v-spacer />
+    <span class="white--text">{{ copyright }}</span>
+    </v-footer>
   </v-app>
 </template>
 
@@ -28,25 +47,33 @@ export default {
   },
   data () {
     return {
-      catPic: '',
+      title: 'Beautiful Cat Facts',
+      copyright: 'Created by Zach Sarette in 2019',
+      catPics: '',
       catInfo: 'this is cat data',
       error: null,
       errored: false,
-      loading: true
+      loading: true,
+      darkThemeOn: false
+    }
+  },
+  watch: {
+    darkThemeOn () {
+      this.$vuetify.theme.dark = this.darkThemeOn
     }
   },
   mounted: async function () {
     await axios
-      .get('https://api.thecatapi.com/v1/images/search')
-      .then(response => (this.catPic = response.data[0].url))
+      .get('https://api.thecatapi.com/v1/images/search?limit=12')
+      .then(response => (this.catPics = response.data))
       .catch(error => {
         this.error = error
         this.errored = true
       })
       .finally(() => (this.loading = false))
     await axios
-      .get('https://catfact.ninja/fact')
-      .then(response => (this.catInfo = response.data.fact))
+      .get('https://catfact.ninja/facts?limit=12')
+      .then(response => (this.catInfo = response.data.data))
       .catch(error => {
         this.error = error
         this.errored = true

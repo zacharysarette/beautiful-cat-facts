@@ -12,10 +12,14 @@ export default new Vuetify({
     dark: false,
     themes: {
       light: {
-        primary: colors.red.darken3
+        primary: colors.red.darken3,
+        secondary: colors.lime.darken4,
+        game: colors.teal.base
       },
       dark: {
-        primary: colors.red.darken1
+        primary: colors.deepOrange.base,
+        secondary: colors.cyan.darken4,
+        game: colors.lightGreen.darken3
       }
     }
 

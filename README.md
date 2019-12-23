@@ -13,7 +13,7 @@ make sure to fork and clone it first.
 
 Also, be sure to use the latest version of npm and node.
 
-Install dependencies. 
+## Install dependencies. 
 ```
 npm install
 ```

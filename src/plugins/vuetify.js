@@ -12,16 +12,15 @@ export default new Vuetify({
     dark: false,
     themes: {
       light: {
-        primary: colors.red.darken3,
-        secondary: colors.lime.darken4,
-        game: colors.teal.base
+        primary: colors.red.darken3, // #C62828
+        secondary: colors.blue.darken4, // #0D47A1
+        accent: colors.grey.darken1 // #757575
       },
       dark: {
-        primary: colors.deepOrange.base,
-        secondary: colors.cyan.darken4,
-        game: colors.lightGreen.darken3
+        primary: colors.deepOrange.darken3, // #D84315
+        secondary: colors.deepPurple.darken4, // #311B92
+        accent: colors.blueGrey.darken2 // #455A64
       }
     }
-
   }
 })

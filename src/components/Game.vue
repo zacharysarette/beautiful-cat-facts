@@ -1,5 +1,5 @@
 <template>
-    <v-alert type="game">
+    <v-alert color="accent">
         <v-row>
         <v-col>
           <h4 class="gameText">Task: {{ text }}</h4>
@@ -12,7 +12,7 @@
         </v-col>
         </v-row>
       <v-toolbar color="secondary" v-if="gameOver">
-      <v-toolbar-title>Game Over</v-toolbar-title>
+      <v-toolbar-title class="gameOverText">Game Over</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
       <v-btn color="secondary" @click="closeGame">Close</v-btn>
@@ -63,6 +63,10 @@ export default {
   border-radius: 25px;
   background-color:#333;
   padding:10px;
+  color:#fff;
+}
 
+.gameOverText {
+  color:#fff;
 }
 </style>

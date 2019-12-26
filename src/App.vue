@@ -8,13 +8,21 @@
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer/>
       <v-toolbar-items>
-      <v-btn elevation="0" color="primary" @click="refreshCats">
+      <v-btn
+        color="primary"
+        @click="refreshCats"
+        v-if="!gameOn"
+      >
         New Fact Cards
         <v-icon right>
           mdi-refresh
         </v-icon>
       </v-btn>
-      <v-btn elevation="0" color="primary" @click="startGame">
+      <v-btn
+        color="primary"
+        @click="startGame"
+        v-if="!gameOn"
+      >
         Game
         <v-icon right>
           mdi-cards-playing-outline
@@ -28,8 +36,17 @@
       >
       </v-switch>
       </v-toolbar-items>
+      <v-progress-linear
+      :active="picsLoading"
+      :indeterminate="picsLoading"
+      absolute
+      bottom
+      color="lime accent-1"
+      >
+      </v-progress-linear>
     </v-app-bar>
     <v-content>
+
     <div v-if="gameOn">
       <app-game
         :text="gameTask.text"
@@ -38,13 +55,13 @@
       </app-game>
     </div>
       <v-col cols="12">
-        <v-row>
+        <v-row v-if="!picsLoading">
           <app-cat-card
           v-for="(cat, i) in catInfo"
           :key ="cat.id"
           :info="cat.fact"
-          :mark="getMark()"
-          :number="getNumber()"
+          :mark="cards[i].mark"
+          :number="cards[i].number"
           :correct="true"
           :catPicSource="catPics[i].url"
           :loading="loading">
@@ -101,6 +118,7 @@ export default {
   mdiCardsPlayingOutline,
   methods: {
     async refreshCats () {
+      this.makeCards()
       this.picsLoading = true
       this.textLoading = true
       await this.getCatFacts()
@@ -108,7 +126,7 @@ export default {
     },
     async getCatFacts () {
       await axios
-        .get('https://catfact.ninja/facts?limit=32')
+        .get('https://catfact.ninja/facts?limit=' + this.numberOfCards)
         .then(response => (this.catInfo = response.data.data))
         .catch(error => {
           this.error = error
@@ -118,7 +136,7 @@ export default {
     },
     async getCatPics () {
       await axios
-        .get('https://api.thecatapi.com/v1/images/search?limit=32')
+        .get('https://api.thecatapi.com/v1/images/search?limit=' + this.numberOfCards)
         .then(response => (this.catPics = response.data))
         .catch(error => {
           this.error = error
@@ -140,25 +158,42 @@ export default {
       this.gameOn = false
     },
     checkCard (data) {
-      if (this.gameData[this.taskNumber].task(data)) {
+      if (this.gameTask.task(data)) {
         this.gameScore += 100
       }
       this.taskNumber = this.getTaskNumber()
     },
     getMark () {
-      return Math.floor(Math.random() * 4)
+      return this.getRandomNumber(0, 3)
     },
     getNumber () {
-      return Math.floor((Math.random() * 10) + 1)
+      return this.getRandomNumber(1, 10)
     },
     getTaskNumber () {
-      return Math.floor(Math.random() * this.gameData.length)
+      this.makeCards()
+      this.isMarkTask = Math.random() > 0.5
+      return this.getRandomNumber(0, this.cards.length - 1)
+    },
+    getRandomNumber (min, max) {
+      return Math.floor((Math.random() * max) + min)
+    },
+    makeCards () {
+      this.cards = []
+      for (let index = 0; index < this.numberOfCards; index++) {
+        const randomMark = this.getMark()
+        const randomNumber = this.getNumber()
+        this.cards.push({
+          mark: randomMark,
+          number: randomNumber
+        })
+      }
     }
   },
   data () {
     return {
       title: 'Beautiful Cat Facts',
       copyright: 'Created by Zach Sarette in 2019',
+      numberOfCards: 12,
       catPics: '',
       catInfo: 'this is cat data',
       error: null,
@@ -170,92 +205,8 @@ export default {
       gameOn: false,
       taskNumber: 0,
       marks: ['spade', 'heart', 'club', 'diamond'],
-      gameData: [
-        {
-          text: 'Find a spade',
-          task (card) {
-            return card.mark === 0
-          }
-        },
-        {
-          text: 'Find a heart',
-          task (card) {
-            return card.mark === 1
-          }
-        },
-        {
-          text: 'Find a club',
-          task (card) {
-            return card.mark === 2
-          }
-        },
-        {
-          text: 'Find a diamond',
-          task (card) {
-            return card.mark === 3
-          }
-        },
-        {
-          text: 'Find an Ace',
-          task (card) {
-            return card.number === 1
-          }
-        },
-        {
-          text: 'Find a 2',
-          task (card) {
-            return card.number === 2
-          }
-        },
-        {
-          text: 'Find a 3',
-          task (card) {
-            return card.number === 3
-          }
-        },
-        {
-          text: 'Find a 4',
-          task (card) {
-            return card.number === 4
-          }
-        },
-        {
-          text: 'Find a 5',
-          task (card) {
-            return card.number === 5
-          }
-        },
-        {
-          text: 'Find a 6',
-          task (card) {
-            return card.number === 6
-          }
-        },
-        {
-          text: 'Find a 7',
-          task (card) {
-            return card.number === 7
-          }
-        },
-        {
-          text: 'Find an 8',
-          task (card) {
-            return card.number === 8
-          }
-        },
-        {
-          text: 'Find a 9',
-          task (card) {
-            return card.number === 9
-          }
-        },
-        {
-          text: 'Find a 10',
-          task (card) {
-            return card.number === 10
-          }
-        }
-      ]
+      cards: [],
+      isMarkTask: false
     }
   },
   computed: {
@@ -263,7 +214,27 @@ export default {
       return this.picsLoading && this.textLoading
     },
     gameTask () {
-      return this.gameData[this.taskNumber]
+      if (this.cards === []) {
+        this.makeCards()
+      }
+      const randomCard = this.cards[this.taskNumber]
+      const markText = this.marks[randomCard.mark]
+      if (this.isMarkTask) {
+        return {
+          text: 'Find a ' + markText,
+          task (card) {
+            return card.mark === randomCard.mark
+          }
+        }
+      }
+      const numText =
+        randomCard.number === 1 ? 'n Ace' : ' ' + randomCard.number
+      return {
+        text: 'Find a' + numText,
+        task (card) {
+          return card.number === randomCard.number
+        }
+      }
     }
   },
   watch: {

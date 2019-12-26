@@ -86,6 +86,19 @@
 </template>
 
 <script>
+import {
+  getRandomCardMark,
+  getRandomCardNumber,
+  getRandomNumber,
+  coinFlip
+} from './utils'
+import {
+  marks,
+  title,
+  copyright,
+  catFactsUrl,
+  catPicsUrl
+} from './const'
 import CatCard from './components/CatCard'
 import Game from './components/Game'
 import { eventBus } from './main'
@@ -126,7 +139,7 @@ export default {
     },
     async getCatFacts () {
       await axios
-        .get('https://catfact.ninja/facts?limit=' + this.numberOfCards)
+        .get(catFactsUrl + this.numberOfCards)
         .then(response => (this.catInfo = response.data.data))
         .catch(error => {
           this.error = error
@@ -136,7 +149,7 @@ export default {
     },
     async getCatPics () {
       await axios
-        .get('https://api.thecatapi.com/v1/images/search?limit=' + this.numberOfCards)
+        .get(catPicsUrl + this.numberOfCards)
         .then(response => (this.catPics = response.data))
         .catch(error => {
           this.error = error
@@ -163,25 +176,16 @@ export default {
       }
       this.taskNumber = this.getTaskNumber()
     },
-    getMark () {
-      return this.getRandomNumber(0, 3)
-    },
-    getNumber () {
-      return this.getRandomNumber(1, 10)
-    },
     getTaskNumber () {
       this.makeCards()
-      this.isMarkTask = Math.random() > 0.5
-      return this.getRandomNumber(0, this.cards.length - 1)
-    },
-    getRandomNumber (min, max) {
-      return Math.floor((Math.random() * max) + min)
+      this.isMarkTask = coinFlip()
+      return getRandomNumber(0, this.cards.length - 1)
     },
     makeCards () {
       this.cards = []
       for (let index = 0; index < this.numberOfCards; index++) {
-        const randomMark = this.getMark()
-        const randomNumber = this.getNumber()
+        const randomMark = getRandomCardMark()
+        const randomNumber = getRandomCardNumber()
         this.cards.push({
           mark: randomMark,
           number: randomNumber
@@ -191,8 +195,8 @@ export default {
   },
   data () {
     return {
-      title: 'Beautiful Cat Facts',
-      copyright: 'Created by Zach Sarette in 2019',
+      title: title,
+      copyright: copyright,
       numberOfCards: 12,
       catPics: '',
       catInfo: 'this is cat data',
@@ -204,7 +208,6 @@ export default {
       gameScore: 0,
       gameOn: false,
       taskNumber: 0,
-      marks: ['spade', 'heart', 'club', 'diamond'],
       cards: [],
       isMarkTask: false
     }
@@ -218,7 +221,7 @@ export default {
         this.makeCards()
       }
       const randomCard = this.cards[this.taskNumber]
-      const markText = this.marks[randomCard.mark]
+      const markText = marks[randomCard.mark]
       if (this.isMarkTask) {
         return {
           text: 'Find a ' + markText,

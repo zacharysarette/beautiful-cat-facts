@@ -1,23 +1,43 @@
 <template>
     <v-alert color="accent">
-        <v-row>
+      <v-row>
         <v-col>
-          <h4 class="gameText">Task: {{ gameTask.text }}</h4>
+          <h4 class="gameText">
+            Task: {{ gameTask.text }}
+          </h4>
         </v-col>
         <v-col>
-        <h4 class="gameText">Score: {{ gameScore }}</h4>
+          <h4 class="gameText">
+            Score: {{ gameScore }}
+          </h4>
         </v-col>
         <v-col>
-        <h4 class="gameText">Time Left: {{ secondsLeft }} seconds</h4>
+          <h4 class="gameText">
+            Time Left: {{ secondsLeft }} seconds
+          </h4>
         </v-col>
-        </v-row>
+      </v-row>
       <v-toolbar color="secondary" v-if="gameOver">
-      <v-toolbar-title class="white--text">Game Over</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-      <v-btn color="secondary" @click="closeGame()">Close</v-btn>
-      <v-btn color="secondary" @click="restartGame">Restart</v-btn>
-      </v-toolbar-items>
+        <v-toolbar-title class="white--text">
+          Game Over
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn
+            color="secondary"
+            @click="closeGame"
+            elevation="0"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="secondary"
+            @click="restartGame"
+            elevation="0"
+          >
+          Restart
+          </v-btn>
+        </v-toolbar-items>
       </v-toolbar>
     </v-alert>
 </template>
@@ -34,10 +54,6 @@ import { eventBus } from '../main'
 export default {
   created () {
     this.makeCards()
-    eventBus.$on('makeCards', () => {
-      this.makeCards()
-      eventBus.$emit('MakeCardsReceived')
-    })
     eventBus.$on('cardWasClicked', (data) => {
       if (this.gameOn) {
         this.checkCard(data)

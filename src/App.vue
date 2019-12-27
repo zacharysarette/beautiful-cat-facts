@@ -1,12 +1,17 @@
 <template>
   <v-app>
-    <app-header :gameOn="gameOn" :loading="loading"></app-header>
+    <app-header
+      :gameOn="gameOn"
+      :loading="picsLoading"
+    >
+    </app-header>
     <v-content>
       <v-alert type="warning" v-if="errored">
       {{ error }}
       </v-alert>
       <div v-show="gameOn">
-        <app-game :numberOfCards="numberOfCards"></app-game>
+        <app-game :numberOfCards="numberOfCards">
+        </app-game>
       </div>
       <v-container>
         <v-col cols="12">
@@ -107,8 +112,7 @@ export default {
   },
   computed: {
     loading () {
-      eventBus.$emit('makeCards')
-      return this.picsLoading && this.textLoading && this.cards !== []
+      return this.picsLoading && this.textLoading && this.cards === []
     }
   },
   mounted: async function () {

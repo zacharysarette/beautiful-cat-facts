@@ -1,5 +1,8 @@
 <template>
     <v-alert color="accent">
+        <audio id="myAudio">
+          <source src="../assets/meow.ogg" type="audio/ogg">
+         </audio>
       <v-row>
         <v-col>
           <h4 class="gameText">
@@ -51,6 +54,7 @@ import {
 } from '../utils'
 import { marks, gameSeconds } from '../const'
 import { eventBus } from '../main'
+
 export default {
   created () {
     this.makeCards()
@@ -121,6 +125,7 @@ export default {
     checkCard (data) {
       if (this.gameTask.task(data)) {
         this.gameScore += 100
+        document.getElementById('myAudio').play()
       }
       this.taskNumber = this.getTaskNumber()
     },

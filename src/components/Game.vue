@@ -6,7 +6,7 @@
       <v-row>
         <v-col>
           <h4 class="gameText">
-            Task: {{ gameTask.text }}
+            Task: {{ gameText }}
           </h4>
         </v-col>
         <v-col>
@@ -136,24 +136,29 @@ export default {
     }
   },
   computed: {
+    gameText () {
+      const randomCard = this.cards[this.taskNumber]
+      if (this.isMarkTask) {
+        const markText = marks[randomCard.mark]
+        return 'Find a ' + markText
+      }
+      const numText =
+        randomCard.number === 1 ? 'n Ace' : ' ' + randomCard.number
+      return 'Find a' + numText
+    },
     gameTask () {
       if (this.cards === []) {
         this.makeCards()
       }
       const randomCard = this.cards[this.taskNumber]
-      const markText = marks[randomCard.mark]
       if (this.isMarkTask) {
         return {
-          text: 'Find a ' + markText,
           task (card) {
             return card.mark === randomCard.mark
           }
         }
       }
-      const numText =
-        randomCard.number === 1 ? 'n Ace' : ' ' + randomCard.number
       return {
-        text: 'Find a' + numText,
         task (card) {
           return card.number === randomCard.number
         }

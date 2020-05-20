@@ -6,8 +6,9 @@
     v-ripple
     @click="checkCard"
     v-show="correct"
-    style="margin:18px"
+    style="margin:16px"
     elevation-24
+    tile
     >
   <div v-if="loading">
     <h2>Loading...</h2>

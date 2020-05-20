@@ -14,8 +14,7 @@
         </app-game>
       </div>
       <v-container>
-        <v-col cols="12">
-          <v-row v-if="!picsLoading">
+          <v-container class="d-flex justify-center flex-wrap" v-if="!picsLoading">
             <app-cat-card
               v-for="(cat, i) in catInfo"
               :key ="cat.id"
@@ -27,8 +26,7 @@
               :loading="loading"
             >
             </app-cat-card>
-          </v-row>
-        </v-col>
+        </v-container>
       </v-container>
     </v-content>
     <app-footer></app-footer>

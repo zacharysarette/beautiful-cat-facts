@@ -1,6 +1,7 @@
 # beautiful-cat-facts
 
-> Welcome To Beautiful Catfacts
+## Welcome To Beautiful Catfacts
+
 > A toy Vue JS app that displays randomized cat facts and pictures.
 
 __Desktop Light Mode__

@@ -1,10 +1,16 @@
 # beautiful-cat-facts
 
-## Welcome To Beautiful Catfacts
+> Welcome To Beautiful Catfacts
 
-A toy Vue JS app that displays randomized cat facts and pictures.
+> A toy Vue JS app that displays randomized cat facts and pictures.
 
-<img width="700" src="./catfactsfinished.PNG" alt="Beautiful Cat Facts App Screen Shot"/>
+** Desktop Light Mode **
+
+<img width="700" src="./beautiful-cat-facts-desktop-light.PNG" alt="Beautiful Cat Facts Desktop Light Mode Screen Shot"/>
+
+** Desktop Dark Mode **
+
+<img width="700" src="./beautiful-cat-facts-desktop-dark.PNG" alt="Beautiful Cat Facts Desktop Dark Mode Screen Shot"/>
 
 ## Project setup
 

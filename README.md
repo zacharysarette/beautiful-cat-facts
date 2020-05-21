@@ -4,13 +4,15 @@
 
 > A toy Vue JS app that displays randomized cat facts and pictures.
 
-__Desktop Light Mode__
 
-<img width="700" src="./beautiful-cat-facts-desktop-light.PNG" alt="Beautiful Cat Facts Desktop Light Mode Screen Shot"/>
+| __Desktop Light Mode__ | __Desktop Dark Mode__ |
+| --- | --- |
+| <img width="300" src="./beautiful-cat-facts-desktop-light.PNG" alt="Beautiful Cat Facts Desktop Light Mode Screen Shot"/> | <img width="300" src="./beautiful-cat-facts-desktop-dark.PNG" alt="Beautiful Cat Facts Desktop Dark Mode Screen Shot"/> |
 
-__Desktop Dark Mode__
+| __Mobile Light Mode__ | __Mobile Dark Mode__ |
+| --- | --- |
+| <img width="300" src="./beautiful-cat-facts-mobile-light.png" alt="Beautiful Cat Facts Desktop Light Mode Screen Shot"/> | <img width="300" src="./beautiful-cat-facts-mobile-dark.png" alt="Beautiful Cat Facts Desktop Dark Mode Screen Shot"/> |
 
-<img width="700" src="./beautiful-cat-facts-desktop-dark.PNG" alt="Beautiful Cat Facts Desktop Dark Mode Screen Shot"/>
 
 ## Project setup
 
